@@ -26,7 +26,7 @@ bootstrap: setup init-configs doctor
 
 # ── Daily workflow ──────────────────────────────────────────────────────────
 
-# Start ifl-broadcast (npm run dev)
+# Start the target project (npm run dev)
 start-dev:
     bash _start-dev.sh
 

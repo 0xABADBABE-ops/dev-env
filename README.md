@@ -13,7 +13,7 @@ init-configs.sh     sync AI coder configs + git/ssh from Windows
 profile.sh          login shell profile (PATH + banner)
 nvm-path.sh         PATH bootstrap for helper scripts
 doctor.sh           self-check: verifies the whole toolset is working
-_start-dev.sh       start ifl-broadcast (npm run dev)
+_start-dev.sh       start the target project (npm run dev)
 _start-selective.sh start server + web (Fastify + Next.js)
 _check-native.sh    verify sharp / better-sqlite3 / esbuild
 export-image.ps1    (Windows) freeze the distro to a portable .tar image
@@ -45,7 +45,7 @@ environment from one place instead of remembering individual script names.
 just --list          # show all recipes + descriptions
 just bootstrap       # one-shot: setup + init-configs + doctor
 just doctor          # verify the toolset
-just start-dev       # run ifl-broadcast
+just start-dev       # run the target project
 just start-selective # run server + web
 just check-native    # native deps
 just probe           # project structure
@@ -85,15 +85,18 @@ Credential Manager so HTTPS push/pull "just works".
 
 ## Project location
 
-Helpers default to `~/projects/TUI` (native ext4 — the fast path) and target the
-`ifl-broadcast` project inside it:
+Helpers target a project you point them at via two optional env vars
+(`TUI_ROOT` = workspace root, `PROJECT` = directory inside it):
 
 ```bash
-git clone <your-repo> ~/projects/TUI
+export TUI_ROOT="$HOME/projects"   # workspace root (default: ~/projects)
+export PROJECT="my-project"        # project dir inside it (default: my-project)
+git clone <your-repo> "$TUI_ROOT/$PROJECT"
 ```
 
-Override with `TUI_ROOT` (e.g. `export TUI_ROOT=/mnt/c/Users/<you>/TUI` for a
-Windows-side checkout — slower, last resort). Make it permanent in `~/.bashrc`.
+Then `just start-dev` / `just start-selective` / `just probe` operate on
+`$TUI_ROOT/$PROJECT`. To use a Windows-side checkout (slower, last resort), set
+`TUI_ROOT=/mnt/c/Users/<you>/...`. Make the exports permanent in `~/.bashrc`.
 
 ## Daily workflow
 

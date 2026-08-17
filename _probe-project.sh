@@ -1,7 +1,8 @@
 #!/bin/bash
 source "$(dirname "$0")/nvm-path.sh"
-TUI_ROOT="${TUI_ROOT:-$HOME/projects/TUI}"
-cd "$TUI_ROOT/ifl-broadcast"
+TUI_ROOT="${TUI_ROOT:-$HOME/projects}"
+PROJECT="${PROJECT:-my-project}"
+cd "$TUI_ROOT/$PROJECT"
 node -e '
 const p = require("./package.json");
 console.log("type:", p.workspaces ? "monorepo" : "single");
