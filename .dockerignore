@@ -1,0 +1,25 @@
+# Keep the CI build context lean — these must never go into the rootfs image.
+.git
+.github
+ci
+*.tar
+*.tar.gz
+*.wsl2
+dev-env.tar
+dev-env.tar.gz
+.dump
+.smartercode
+.vault
+install.ps1
+install.bat
+README.md
+justfile
+doctor.sh
+init-configs.sh
+nvm-path.sh
+_check-native.sh
+_probe-project.sh
+_start-dev.sh
+_start-selective.sh
+export-image.ps1
+import-image.ps1

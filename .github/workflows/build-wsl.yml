@@ -1,0 +1,42 @@
+name: Build WSL2 Dev Environment
+
+on:
+  workflow_dispatch:          # manual trigger from the Actions tab
+  push:
+    tags:
+      - 'v*'                  # auto-build on version tags
+
+permissions:
+  contents: write             # needed to attach artifacts to a Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build rootfs image
+        run: docker build -t dev-env -f ci/Dockerfile .
+
+      - name: Export WSL rootfs
+        run: |
+          docker create --name dev-env-tmp dev-env >/dev/null
+          docker export dev-env-tmp -o dev-env.tar
+          docker rm dev-env-tmp >/dev/null
+          gzip -9 dev-env.tar
+          ls -lh dev-env.tar.gz
+
+      - name: Upload artifact (workflow runs)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dev-env-wsl2
+          path: dev-env.tar.gz
+          if-no-files-found: error
+
+      - name: Attach to GitHub Release (tagged pushes only)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dev-env.tar.gz
+          generate_release_notes: true
