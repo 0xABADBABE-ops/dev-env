@@ -1,5 +1,7 @@
 # WSL2 Native Dev Environment
 
+[![Build](https://github.com/0xabadbabe-ops/dev-env/actions/workflows/build-wsl.yml/badge.svg)](https://github.com/0xabadbabe-ops/dev-env/actions/workflows/build-wsl.yml)
+
 A complete, reproducible Node.js development environment running **natively in
 WSL2** — no Docker, no volume sync, native file I/O. Target distro:
 **Debian 13 (trixie)** — also works on Ubuntu 24.04 (both apt-based).
@@ -90,7 +92,7 @@ Helpers default to `~/projects/TUI` (native ext4 — the fast path) and target t
 git clone <your-repo> ~/projects/TUI
 ```
 
-Override with `TUI_ROOT` (e.g. `export TUI_ROOT=/mnt/c/Users/playertwo/TUI` for a
+Override with `TUI_ROOT` (e.g. `export TUI_ROOT=/mnt/c/Users/<you>/TUI` for a
 Windows-side checkout — slower, last resort). Make it permanent in `~/.bashrc`.
 
 ## Daily workflow
@@ -109,7 +111,7 @@ Once the distro is configured, freeze it into a portable installer:
 
 ```powershell
 # Windows PowerShell — export
-powershell -File export-image.ps1 -Distro Ubuntu-24.04 -Out dev-env.tar
+powershell -File export-image.ps1 -Distro Debian -Out dev-env.tar
 
 # Windows PowerShell — import on a fresh machine
 powershell -File import-image.ps1 -Name DevEnv -Tar dev-env.tar -DefaultUser <your-user>
